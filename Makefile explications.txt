@@ -1,0 +1,38 @@
+# Nom de la bibliothèque
+NAME = libmabibliotheque.a
+
+# Compilateur et flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+
+# Fichiers sources et objets
+SRCS = utils.c
+OBJS = $(SRCS:.c=.o)
+
+# Cible par défaut : all
+all: $(NAME)
+
+# Création de la bibliothèque statique
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
+	@echo "La bibliothèque $(NAME) a été créée."
+
+# Compile les fichiers .c en fichiers .o
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Nettoie les fichiers objets
+clean:
+	rm -f $(OBJS)
+	@echo "Les fichiers objets ont été supprimés."
+
+# Nettoie les fichiers objets et la bibliothèque
+fclean: clean
+	rm -f $(NAME)
+	@echo "La bibliothèque $(NAME) a été supprimée."
+
+# Récompile tout
+re: fclean all
+
+# Indiquer que ces cibles ne sont pas des fichiers
+.PHONY: all clean fclean re
